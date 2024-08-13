@@ -17,8 +17,19 @@ for _, lsp in ipairs(servers) do
 end
 
 -- configuring single server, example: typescript
--- lspconfig.ts_ls.setup {
---   on_attach = nvlsp.on_attach,
---   on_init = nvlsp.on_init,
---   capabilities = nvlsp.capabilities,
--- }
+lspconfig.ts_ls.setup {
+  on_attach = nvlsp.on_attach,
+  on_init = nvlsp.on_init,
+  capabilities = nvlsp.capabilities,
+}
+
+-- python
+lspconfig.pyright.setup {
+  on_attach = nvlsp.on_attach,
+  capabilities = nvlsp.capabilities,
+  filetypes = {"python"}
+}
+
+ -- setup diagnostics
+vim.diagnostic.config({ virtual_text = false })
+
