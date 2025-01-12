@@ -7,6 +7,11 @@ local lspconfig = require "lspconfig"
 local servers = { "html", "cssls" }
 local nvlsp = require "nvchad.configs.lspconfig"
 
+nvlsp.capabilities.textDocument.foldingRange = {
+  dynamicRegistration = false,
+  lineFoldingOnly = true
+}
+
 -- lsps with default config
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
@@ -27,9 +32,23 @@ lspconfig.ts_ls.setup {
 lspconfig.pyright.setup {
   on_attach = nvlsp.on_attach,
   capabilities = nvlsp.capabilities,
-  filetypes = {"python"}
+  filetypes = { "python" }
 }
 
- -- setup diagnostics
-vim.diagnostic.config({ virtual_text = false })
+-- c/c++
+lspconfig.clangd.setup {
+  on_attach = nvlsp.on_attach,
+  capabilities = nvlsp.capabilities
+}
 
+-- cmake
+lspconfig.cmake.setup {
+  on_attach = nvlsp.on_attach,
+  capabilities = nvlsp.capabilities,
+  init_options = {
+    buildDirectory = "out/build"
+  }
+}
+
+-- setup diagnostics
+vim.diagnostic.config({ virtual_text = false })

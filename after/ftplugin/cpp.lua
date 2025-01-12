@@ -1,0 +1,6 @@
+-- vim.g.load_doxygen_syntax = 1
+-- vim.o.foldmethod = "syntax"
+-- vim.o.cindent = true
+-- vim.o.shiftwidth = 2
+-- local map = vim.keymap.set
+-- map("v", "<leader>dm", ":TSCppDefineClassFunc<CR>", { desc = "Generate definitions for c++ methods" })

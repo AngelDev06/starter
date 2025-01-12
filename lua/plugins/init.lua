@@ -1,9 +1,4 @@
 return {
-  {
-    "stevearc/conform.nvim",
-    -- event = 'BufWritePre', -- uncomment for format on save
-    opts = require "configs.conform",
-  },
 
   -- These are some examples, uncomment them if you want to see them work!
   {
@@ -42,9 +37,15 @@ return {
     config = function(_, opts)
       local hover = require("hover")
       hover.setup(opts)
-      vim.keymap.set("n", "K", hover.hover, { desc = "hover.nvim" })
+      vim.keymap.set("n", "<leader>hv", hover.hover, { desc = "hover info" })
       vim.api.nvim_create_autocmd({ "CursorHold" }, {
-        callback = hover.hover
+        callback = function()
+          if vim.o.updatetime == 50 then
+            vim.o.updatetime = 2000
+            return
+          end
+          hover.hover()
+        end
       })
     end
   },
@@ -137,27 +138,9 @@ return {
         desc = "Format buffer",
       },
     },
-
-    ---@module "conform"
-    ---@type conform.setupOpts
-    opts = {
-      formatters_by_ft = {
-        python = {
-          "ruff_format",
-          "ruff_organize_imports",
-          "black"
-        },
-      },
-      default_format_opts = {
-        lsp_format = "fallback",
-      },
-      format_on_save = { timeout_ms = 5000 },
-      formatters = {
-        shfmt = {
-          prepend_args = { "-i", "2" },
-        },
-      },
-    },
+    opts = function()
+      return require("configs.conform")
+    end,
     init = function()
       vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
     end,
@@ -168,10 +151,83 @@ return {
   {
     "Vimjas/vim-python-pep8-indent",
     ft = "python"
+  },
+  {
+    "kevinhwang91/nvim-ufo",
+    dependencies = "kevinhwang91/promise-async",
+    event = "BufEnter",
+    opts = {
+      provider_selector = function(bufnr, filetype, buftype)
+        local custom_provider = {
+          python = true,
+        }
+        if custom_provider[filetype] then
+          return ""
+        else
+          return "lsp"
+        end
+      end
+    },
+    config = function(_, opts)
+      local ufo = require("ufo")
+      vim.o.foldcolumn = "1"
+      vim.o.foldlevel = 99
+      vim.o.foldlevelstart = 99
+      vim.o.foldenable = true
+      vim.o.timeoutlen = 700
+      vim.keymap.set("n", "zR", ufo.openAllFolds)
+      vim.keymap.set("n", "zM", ufo.closeAllFolds)
+      ufo.setup(opts)
+    end
+  },
+  {
+    "Badhi/nvim-treesitter-cpp-tools",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    ft = { "cpp" },
+    cmd = { "TSCppDefineClassFunc", "TSCppMakeConcreteClass", "TSCppRuleOf3", "TSCppRuleOf5" },
+    keys = {
+      {
+        mode = { "n", "v" },
+        "<leader>dm",
+        ":TSCppDefineClassFunc<CR>",
+        desc = "Generate definitions for c++ methods"
+      }
+    },
+    config = true
+  },
+  {
+    "smoka7/multicursors.nvim",
+    event = "VeryLazy",
+    dependencies = "nvimtools/hydra.nvim",
+    opts = {},
+    cmd = { "MCstart", "MCvisual", "MCclear", "MCpattern", "MCvisualPattern", "MCunderCursor" },
+    keys = {
+      {
+        mode = { "n", "v" },
+        "<leader>m",
+        ":MCstart<CR>",
+        desc = "Multi-Cursor create selection"
+      }
+    }
   }
+
 
   -- These are some examples, uncomment them if you want to see them work!
 
+  --  {
+  --    "LucHermitte/VimFold4C",
+  --    dependencies = "LucHermitte/lh-vim-lib",
+  --    ft = { "c", "cpp" },
+  --    config = function()
+  --      vim.g.fold_options = {
+  --        fallback_method = {
+  --          line_threshold = 3000,
+  --          method = "syntax"
+  --        },
+  --        merge_comments = 0
+  --      }
+  --    end
+  --  }
   --
   -- {
   -- 	"williamboman/mason.nvim",
