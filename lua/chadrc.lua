@@ -6,7 +6,13 @@
 local M = {}
 
 M.base46 = {
-	theme = "onedark",
+	theme = "tundra",
+  hl_override = {
+    Cursor = {
+      bg = "white",
+      fg ="white"
+    }
+  }
 
 	-- hl_override = {
 	-- 	Comment = { italic = true },

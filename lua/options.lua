@@ -1,4 +1,5 @@
 require "nvchad.options"
+vim.o.updatetime = 2000
 
 -- add yours here!
 
