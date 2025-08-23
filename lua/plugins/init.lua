@@ -7,21 +7,21 @@ return {
       {
         "<leader>f",
         function()
-          require("conform").format({ async = true })
+          require("conform").format { async = true }
         end,
         mode = "",
         desc = "Format buffer",
       },
     },
     opts = function()
-      return require("configs.conform")
+      return require "configs.conform"
     end,
     init = function()
       vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
     end,
     config = function(_, opts)
       require("conform").setup(opts)
-    end
+    end,
   },
   {
     "neovim/nvim-lspconfig",
@@ -31,25 +31,25 @@ return {
   },
   {
     "tmhedberg/SimpylFold",
-    ft = "python"
+    ft = "python",
   },
   {
     "lewis6991/hover.nvim",
     event = { "BufReadPost", "BufWritePost", "BufNewFile" },
     opts = {
       init = function()
-        require("hover.providers.lsp")
-        require("hover.providers.diagnostic")
-        require("hover.providers.fold_preview")
+        require "hover.providers.lsp"
+        require "hover.providers.diagnostic"
+        require "hover.providers.fold_preview"
       end,
       preview_opts = {
-        border = 'single'
+        border = "single",
       },
       preview_window = false,
-      title = true
+      title = true,
     },
     config = function(_, opts)
-      local hover = require("hover")
+      local hover = require "hover"
       hover.setup(opts)
       vim.keymap.set("n", "<leader>hv", hover.hover, { desc = "hover info" })
       vim.api.nvim_create_autocmd({ "CursorHold" }, {
@@ -59,9 +59,9 @@ return {
             return
           end
           hover.hover()
-        end
+        end,
       })
-    end
+    end,
   },
   {
     "mfussenegger/nvim-lint",
@@ -72,7 +72,7 @@ return {
     config = function(_, opts)
       local M = {}
 
-      local lint = require("lint")
+      local lint = require "lint"
       for name, linter in pairs(opts.linters) do
         if type(linter) == "table" and type(lint.linters[name]) == "table" then
           lint.linters[name] = vim.tbl_deep_extend("force", lint.linters[name], linter)
@@ -136,11 +136,11 @@ return {
         group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
         callback = M.debounce(100, M.lint),
       })
-    end
+    end,
   },
   {
     "Vimjas/vim-python-pep8-indent",
-    ft = "python"
+    ft = "python",
   },
   {
     "kevinhwang91/nvim-ufo",
@@ -156,10 +156,10 @@ return {
         else
           return "lsp"
         end
-      end
+      end,
     },
     config = function(_, opts)
-      local ufo = require("ufo")
+      local ufo = require "ufo"
       vim.o.foldcolumn = "1"
       vim.o.foldlevel = 99
       vim.o.foldlevelstart = 99
@@ -168,7 +168,7 @@ return {
       vim.keymap.set("n", "zR", ufo.openAllFolds)
       vim.keymap.set("n", "zM", ufo.closeAllFolds)
       ufo.setup(opts)
-    end
+    end,
   },
   {
     "Badhi/nvim-treesitter-cpp-tools",
@@ -180,10 +180,10 @@ return {
         mode = { "n", "v" },
         "<leader>dm",
         ":TSCppDefineClassFunc<CR>",
-        desc = "Generate definitions for c++ methods"
-      }
+        desc = "Generate definitions for c++ methods",
+      },
     },
-    config = true
+    config = true,
   },
   {
     "smoka7/multicursors.nvim",
@@ -196,9 +196,15 @@ return {
         mode = { "n", "v" },
         "<leader>m",
         ":MCstart<CR>",
-        desc = "Multi-Cursor create selection"
-      }
-    }
+        desc = "Multi-Cursor create selection",
+      },
+      {
+        mode = { "n", "v" },
+        "<leader>M",
+        ":MCunderCursor<CR>",
+        desc = "Multi-Cursor create selection under cursor",
+      },
+    },
   },
   -- load luasnips + cmp related in insert mode only
   {
@@ -224,16 +230,15 @@ return {
           disable_filetype = { "TelescopePrompt", "vim" },
         },
         config = function(_, opts)
-          local npairs = require("nvim-autopairs")
-          local Rule = require("nvim-autopairs.rule")
+          local npairs = require "nvim-autopairs"
+          local Rule = require "nvim-autopairs.rule"
           npairs.setup(opts)
 
-          npairs.add_rules({
-            Rule("/*", "*/", { "c", "cpp" })
-                :replace_map_cr(function()
-                  return "<C-g>u<CR><CR><C-u><Up><end><space>"
-                end)
-          })
+          npairs.add_rules {
+            Rule("/*", "*/", { "c", "cpp" }):replace_map_cr(function()
+              return "<C-g>u<CR><CR><C-u><Up><end><space>"
+            end),
+          }
 
           -- setup cmp for autopairs
           local cmp_autopairs = require "nvim-autopairs.completion.cmp"
@@ -248,7 +253,7 @@ return {
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
-        "hrsh7th/cmp-nvim-lsp-signature-help"
+        "hrsh7th/cmp-nvim-lsp-signature-help",
       },
     },
     opts = function()
@@ -269,7 +274,7 @@ return {
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
     end,
-  }
+  },
 
   -- {
   -- 	"nvim-treesitter/nvim-treesitter",
