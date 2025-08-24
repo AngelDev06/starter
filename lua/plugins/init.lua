@@ -5,7 +5,7 @@ return {
     cmd = { "ConformInfo" },
     keys = {
       {
-        "<leader>f",
+        "<leader>fm",
         function()
           require("conform").format { async = true }
         end,
@@ -165,8 +165,8 @@ return {
       vim.o.foldlevelstart = 99
       vim.o.foldenable = true
       vim.o.timeoutlen = 700
-      vim.keymap.set("n", "zR", ufo.openAllFolds)
-      vim.keymap.set("n", "zM", ufo.closeAllFolds)
+      vim.keymap.set("n", "zR", ufo.openAllFolds, { desc = "UFO open all folds" })
+      vim.keymap.set("n", "zM", ufo.closeAllFolds, { desc = "UFO close all folds" })
       ufo.setup(opts)
     end,
   },
@@ -180,7 +180,8 @@ return {
         mode = { "n", "v" },
         "<leader>dm",
         ":TSCppDefineClassFunc<CR>",
-        desc = "Generate definitions for c++ methods",
+        silent = true,
+        desc = "Generate definitions for c++ methods"
       },
     },
     config = true,
@@ -194,15 +195,24 @@ return {
     keys = {
       {
         mode = { "n", "v" },
-        "<leader>m",
+        "<leader>mw",
         ":MCstart<CR>",
-        desc = "Multi-Cursor create selection",
+        silent = true,
+        desc = "Multi-Cursor create selection under word",
       },
       {
         mode = { "n", "v" },
-        "<leader>M",
+        "<leader>mc",
         ":MCunderCursor<CR>",
+        silent = true,
         desc = "Multi-Cursor create selection under cursor",
+      },
+      {
+        mode = { "n", "v" },
+        "<leader>mv",
+        ":MCvisual<CR>",
+        silent = true,
+        desc = "Multi-Cursor create selection from last visual",
       },
     },
   },
