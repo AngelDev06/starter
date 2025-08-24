@@ -21,5 +21,11 @@ map(
   vim.lsp.buf.code_action,
   { noremap = true, silent = true, desc = "Action show code action menu" }
 )
+map(
+  "n",
+  "<leader>fr",
+  ":Telescope lsp_references<CR>",
+  { noremap = true, silent = true, desc = "telescope find references" }
+)
 
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
