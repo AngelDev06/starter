@@ -27,5 +27,17 @@ map(
   ":Telescope lsp_references<CR>",
   { noremap = true, silent = true, desc = "telescope find references" }
 )
+map(
+  "n",
+  "<leader>fw",
+  ":Telescope grep_string<CR>",
+  { noremap = true, silent = true, desc = "telescope search word under cursor" }
+)
+map(
+  "n",
+  "<leader>fg",
+  ":Telescope live_grep<CR>",
+  { noremap = true, silent = true, desc = "telescope live grep in project" }
+)
 
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
