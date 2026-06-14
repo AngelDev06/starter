@@ -1,7 +1,14 @@
 require "nvchad.autocmds"
 local autocmd = vim.api.nvim_create_autocmd
-local group = vim.api.nvim_create_augroup("Folding", { clear = true })
+local augroup = vim.api.nvim_create_augroup
+--local group = augroup("Folding", { clear = true })
 
+autocmd("FileType", {
+  group = augroup("TSHighlighting", { clear = true }),
+  callback = function()
+    pcall(vim.treesitter.start)
+  end,
+})
 
 --autocmd({ "FileType" }, {
 --  group = group,
