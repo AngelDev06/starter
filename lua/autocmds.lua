@@ -2,6 +2,7 @@ require "nvchad.autocmds"
 local autocmd = vim.api.nvim_create_autocmd
 local group = vim.api.nvim_create_augroup("Folding", { clear = true })
 
+
 --autocmd({ "FileType" }, {
 --  group = group,
 --  callback = function()
