@@ -4,11 +4,12 @@ local options = {
     python = {
       "ruff_format",
       "ruff_organize_imports",
-      "black"
+      "black",
     },
     c = { "clang-format" },
     cpp = { "clang-format" },
-    cmake = { "cmake_format" }
+    cmake = { "cmake_format" },
+    r = { "styler" },
   },
   default_format_opts = {
     lsp_format = "fallback",
@@ -16,9 +17,9 @@ local options = {
   format_on_save = { timeout_ms = 5000 },
   formatters = {
     shfmt = {
-      prepend_args = { "-i", "2" }
-    }
-  }
+      prepend_args = { "-i", "2" },
+    },
+  },
 }
 
 return options
