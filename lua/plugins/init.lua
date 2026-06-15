@@ -58,6 +58,18 @@ return {
             vim.o.updatetime = 2000
             return
           end
+          -- 1. Get the current line and cursor column position
+          local line = vim.api.nvim_get_current_line()
+          local col = vim.api.nvim_win_get_cursor(0)[2] + 1 -- 1-indexed column
+
+          -- 2. Get the exact character under the cursor
+          local char = string.sub(line, col, col)
+
+          -- 3. If the line is empty, or the character is a space, tab, or punctuation, DO NOT HOVER
+          if line == "" or char:match "%s" or char:match "[%[%](){},.;:%'\"]" then
+            return
+          end
+
           hover.hover()
         end,
       })
